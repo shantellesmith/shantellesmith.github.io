@@ -1,0 +1,18 @@
+name: "Ruan's Site"
+navbar:
+  title: "Ruan George Parrott"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Template Tab"
+      href: Journal.html
+    - text: "Template Tab"
+      href: Links.html
+output: 
+  html_document:
+    includes:
+      after_body: footer.html
+      in_header: GoogleAnalytics.html
+output_dir: "docs"
+
+
