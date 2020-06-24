@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="generator" content="pandoc" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+    <title>ShantelleSmith</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+    <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+    <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+    <script src="site_libs/navigation-1.1/tabsets.js"></script>
+    <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+    <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-169843818-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-169843818-1');
+        </script>
+
+    <script type="text/javascript">
+      if (window.hljs) {
+        hljs.configure({languages: []});
+        hljs.initHighlightingOnLoad();
+        if (document.readyState && document.readyState === "complete") {
+          window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+        }
+      }
+    </script>
+
+
+    <script>
+      // manage active state of menu based on current page
+      $(document).ready(function () {
+        // active menu anchor
+        href = window.location.pathname
+        href = href.substr(href.lastIndexOf('/') + 1)
+        if (href === "")
+          href = "index.html";
+        var menuAnchor = $('a[href="' + href + '"]');
+
+        // mark it active
+        menuAnchor.parent().addClass('active');
+
+        // if it's got a parent navbar menu mark it active as well
+        menuAnchor.closest('li.dropdown').addClass('active');
+      });
+    </script>
+
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid main-container">
+
+
+    <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+      <div class="container">
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+            <span class="icon-bar"></span> <!-- creates burger menu dropdown for mobile (three horiz lines)-->
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">Shantelle Smith</a> 
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              <li>
+                <a href="index.html">Home</a>
+              </li>
+              <li>
+                <a href="Journal.html">Template Tab</a>
+              </li>
+              <li>
+                <a href="Links.html">Template Tab</a>
+              </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li> <!-- leave empty for now --->
+
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+
+      </div><!--/.container -->
+    </div><!--/.navbar -->
+
+
+    <div class="fluid-row" id="header">
+
+      <h1 class="title toc-ignore">Shantelle Smith</h1>
+
+    </div>
+
+
+    <div class="row" style="padding-top: 30px;">
+      <div class="col-sm-6">
+        <h1 id="page-under-construction"><strong>Page Under Construction</strong></h1>
+        <p>This is a template</p>
+        <h2 id="template">Template</h2>
+        <ol style="list-style-type: decimal">
+          <li><p>Template.</p></li>
+          <li><p>Template.</p></li>
+        </ol>
+      </div>
+    <div class="col-sm-6">
+
+      <p><img id="avatarimg" src="images/IMG_4040.jpg" alt="Shantelle Smith" width=50%/></p>
+
+      &nbsp;
+      <hr />
+      <p style="text-align: center;"> Find the coding for this website here: <a href="https://github.com/shantellesmith15/Personal-Website">github.com/shantellesmith15/Personal-Website</a></p>
+      <p style="text-align: center;"><span style="color: #808080;"><em>shantelle@denier.co.za</em></span></p>
+
+      <!-- Add icon library -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+      <!-- Add font awesome icons -->
+      <p class="social" style="text-align: center;">
+          <a href="https://twitter.com/ShantelleSmith_" class="fa fa-twitter fa-3x"></a>
+          <a href="https://www.linkedin.com/in/shantelle-smith-66a645a5/" class="fa fa-linkedin fa-3x"></a>
+          <a href="https://github.com/shantellesmith15" class="fa fa-github fa-3x"></a>
+      </p>
+
+      &nbsp;
+
+    </div>
+
+    <script>
+
+      // add bootstrap table styles to pandoc tables
+      function bootstrapStylePandocTables() {
+        $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+      }
+      $(document).ready(function () {
+        bootstrapStylePandocTables();
+      });
+
+
+    </script>
+
+    <!-- tabsets -->
+
+    <script>
+      $(document).ready(function () {
+        window.buildTabsets("TOC");
+      });
+
+      $(document).ready(function () {
+        $('.tabset-dropdown > .nav-tabs > li').click(function () {
+          $(this).parent().toggleClass('nav-tabs-open')
+        });
+      });
+    </script>
+
+    <!-- code folding -->
+
+
+    <!-- dynamically load mathjax for compatibility with self-contained -->
+    <script>
+      (function () {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+        document.getElementsByTagName("head")[0].appendChild(script);
+      })();
+    </script>
+
+</body>
+</html>
