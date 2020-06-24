@@ -1,2 +1,4 @@
-# parrott-r.github.io
-My Website
+# shantellesmith15.github.io
+My Personal Website
+
+Showcasing data science experience
