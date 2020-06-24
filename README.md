@@ -1,4 +1,4 @@
-# shantellesmith15.github.io
+# shantelle15.github.io
 My Personal Website
 
 Showcasing data science experience
