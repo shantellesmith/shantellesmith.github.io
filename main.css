@@ -8,6 +8,7 @@ code {
   color: inherit;
   background-color: rgba(0, 0, 0, 0.04);
 }
+
 img {
   max-width:100%;
 }
@@ -179,4 +180,29 @@ h6 {
 #avatarimg {
   margin-left: 25%;
   border-radius: 25%;
+}
+
+.sidebar-menu {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: white; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+.sidebar-menu a {
+  padding: 50px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.r {
+  display: block;
+  border: 1px solid #111;
 }
