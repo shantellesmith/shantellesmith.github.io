@@ -1,0 +1,75 @@
+
+/**/
+
+body {
+    background-color: white;
+    padding-top: 30px; /* padding for bootstrap navbar */
+    padding-bottom: 15px;
+}
+
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+
+img {
+  max-width:100%;
+}
+
+
+.sidebar-menu {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 160px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: white; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+.sidebar-menu a {
+  padding: 50px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+.r { /* edit code block*/
+  display: block;
+  border: 1px solid #111;
+  /* wrap long lines*/
+  overflow-x: auto;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+}
+
+#ts-plot {
+  display: block;
+  float: right;
+  width: 80%;
+  padding-top: 20px;
+  padding-right: 10px;
+}
