@@ -1,0 +1,92 @@
+### TS-plot
+Create TS-plots with isopycnals (as potential density) and dissolved oxygen concentration as the z-axis. This is an adaptation from this function
+
+``` {r tidy=TRUE}
+
+ggTS <- function(
+  sal, abs.sal, temp, pot.temp, pres, reference.p = 0, col.par = NA, col.name = "col.par")
+  {
+  # packages
+  library(gsw)
+  library(ggplot2)
+
+  # make TS long table
+  TSpd <- expand.grid(
+    abs.sal = seq(floor(min(abs.sal, na.rm = TRUE)), ceiling(max(abs.sal, na.rm = TRUE)), length.out = 100),
+    temp = seq(floor(min(temp, na.rm = TRUE)), ceiling(max(temp, na.rm = TRUE)), length.out = 100),
+    pres = seq(floor(min(pres, na.rm = TRUE)), ceiling(max(pres, na.rm = TRUE)), length.out = 100)
+  )
+
+  TS <- expand.grid(
+    sal = seq(floor(min(sal, na.rm = TRUE)), ceiling(max(sal, na.rm = TRUE)), length.out = 100),
+    pot.temp = seq(floor(min(pot.temp, na.rm = TRUE)), ceiling(max(pot.temp, na.rm = TRUE)), length.out = 100),
+    pres = seq(floor(min(pres, na.rm = TRUE)), ceiling(max(pres, na.rm = TRUE)), length.out = 100)
+  )
+  
+  TSpd$density <- gsw_pot_rho_t_exact(SA = TSpd$abs.sal, t = TSpd$temp, p= TSpd$pres, p_ref= reference.p) - 1000
+  density <- TSpd$density
+  TS$density <- density
+
+  h.isopycnals <- subset(TS,
+                         TS$sal == ceiling(max(TS$sal)) & 
+                           round(TS$density,1) %in% seq(min(round(TS$density*2)/2, na.rm = TRUE),
+                                                     max(round(TS$density*2)/2, na.rm = TRUE),
+                                                     by = .5)) 
+  if(nrow(h.isopycnals)>0){
+    h.isopycnals$density <- round(h.isopycnals$density, 1) 
+    h.isopycnals <- aggregate(pot.temp~density, h.isopycnals, mean) 
+  }
+
+
+  if(nrow(h.isopycnals)==0){ 
+    rm(h.isopycnals) 
+
+    v.isopycnals <- subset(TS, 
+                           pot.temp == ceiling(max(TS$pot.temp)) & 
+                             round(TSpd$density,1) %in% seq(min(round(TS$density*2)/2),
+                                                       max(round(TS$density*2)/2),
+                                                       by = .5)) 
+    v.isopycnals$density <- round(v.isopycnals$density, 1) 
+    v.isopycnals <- aggregate(sal~density, v.isopycnals, mean) 
+  }
+
+  
+  data <- data.frame(sal, pot.temp, col.par)  
+
+  
+  p1 <- ggplot() +
+    geom_contour(data = TS, aes(x = sal, y = pot.temp, z = density), col = "grey", linetype = "dashed",
+                 breaks = seq(min(round(TS$density*2)/2, na.rm = TRUE),
+                              max(round(TS$density*2)/2, na.rm = TRUE),
+                              by = .5)) +
+    geom_point(data = data[is.na(data$col.par),], 
+               aes(sal, pot.temp), color = "black") +
+    geom_point(data = data[!is.na(data$col.par),], 
+               aes(sal, pot.temp, color = col.par), size=2.5) +   
+    annotate(geom = "text", x = floor(min(TS$sal, na.rm = TRUE))+0.6, y = ceiling(max(TS$pot.temp, na.rm = TRUE)),
+             hjust = "inward", vjust = "inward", color = "grey60", size = 14,
+             label = expression(italic("\u03c3")[italic("\u03b8")]), parse = T) +
+    scale_x_continuous(name = "Practical Salinity [PSU]", expand = c(0,0),
+                       limits = c(floor(min(TS$sal, na.rm = TRUE))+0.5, ceiling(max(TS$sal, na.rm = TRUE)))) +
+    scale_y_continuous(name = "Potential Temperature [°C]", expand = c(0,0),
+                       limits = c(floor(min(TS$pot.temp, na.rm = TRUE))+0.0, ceiling(max(TS$pot.temp, na.rm = TRUE)))) + 
+    scale_color_gradientn(colors = c("blue", "green", "yellow", "red"), name = col.name) +
+    theme_classic() + theme(text = element_text(size=25))
+
+  
+  if(exists("h.isopycnals")){
+    p1 <- p1 + geom_text(data = h.isopycnals,
+                         aes(x = ceiling(max(TS$sal)), y = pot.temp, label = density),
+                         hjust = "inward", vjust = -0.65, col = "grey", size = 6)
+  }
+
+  
+  if(exists("v.isopycnals")){
+    p1 <- p1 + geom_text(data = v.isopycnals,
+                         aes(x = sal, y = ceiling(max(TS$pot.temp)), label = density),
+                         vjust = "inward", hjust = 0, col = "grey", size = 6)
+  }
+
+  return(p1)
+}
+```

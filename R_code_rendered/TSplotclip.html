@@ -1,0 +1,111 @@
+<div id="ts-plot" class="section level3">
+  <h3>Temperature-Salinity Diagram</h3>
+  <hr></hr>
+  <p>Temperature-salinity diagrams (TS-plots) are used in physical oceanography to identify water masses.
+    Since water masses also have distinct oxygen concentrations and exist along particular isolines of potential density (isopycnals),
+    it is helpful to combine all four parameters into one plot for the purpose of water mass identification. </p>
+  <p> This function allows you to create TS-plots with isopycnals (using potential density) and dissolved oxygen concentration as the z-axis.
+    This is an adaptation of the <a href="https://github.com/Davidatlarge/ggTS" target="_blank">ggTS</a> function.
+    Here, I've used the viridis palette for the z-axis for accessibility. An extensive list of colour palettes in R,
+    including more information about colour-blind friendly palettes and palettes suitable for black and white displays, can be found
+    <a href='https://github.com/EmilHvitfeldt/r-color-palettes' target="_blank">here</a>.</p>
+  <p> The function ggTS requires vectors of equal length of practical salinity (sal), absolute salinity (abs.sal), in-situ temperature (temp),
+    potential temperature (pot.temp), and sea pressure (pres). Optional arguments include reference pressure for the potential
+    density function (default = 0); a vector for the z-axis e.g. oxygen concentration (col.par) and a name for the z-axis (col.name).</p>
+  <pre class="r"><code>ggTS &lt;- function(sal, abs.sal, temp, pot.temp, pres, reference.p = 0, col.par = NA, col.name = &quot;col.par&quot;) {
+      # load packages
+      library(gsw)
+      library(ggplot2) </code></pre>
+  <p> Create a long table, TSpd, which is used to calculate potential density from absolute salinity and in-situ temperature.
+    Create a second long table, TS, which will be used for the plotting of potential temperature and practical salinity with isopycnals and a z-axis.
+  I prefer displaying potential density anomaly so I've subtracted 1000 from the potential density. </p>
+  <pre class="r"><code>        # use expand.grid to make long tables
+      TSpd &lt;- expand.grid(
+          abs.sal = seq(floor(min(abs.sal, na.rm = TRUE)),ceiling(max(abs.sal, na.rm = TRUE)),length.out = 100),
+          temp = seq(floor(min(temp, na.rm = TRUE)),ceiling(max(temp, na.rm = TRUE)),length.out = 100),
+          pres = seq(floor(min(pres, na.rm = TRUE)),ceiling(max(pres, na.rm = TRUE)),length.out = 100))
+
+
+      TS &lt;- expand.grid(
+          sal = seq(floor(min(sal, na.rm = TRUE)), ceiling(max(sal, na.rm = TRUE)),length.out = 100),
+          pot.temp = seq(floor(min(pot.temp, na.rm = TRUE)),ceiling(max(pot.temp, na.rm = TRUE)),length.out = 100),
+          pres = seq(floor(min(pres, na.rm = TRUE)),ceiling(max(pres, na.rm = TRUE)),length.out = 100))
+
+
+      TSpd$density &lt;- gsw_pot_rho_t_exact(SA = TSpd$abs.sal, t = TSpd$temp, p = TSpd$pres, p_ref = reference.p) -
+          1000
+      TS$density &lt;- TSpd$density </code></pre>
+  <p> explain next block </p>
+  <pre class="r"><code>        h.isopycnals &lt;- subset(TS, TS$sal == ceiling(max(TS$sal)) &amp;
+                        round(TS$density, 1) %in% seq(min(round(TS$density * 2)/2,
+                        na.rm = TRUE), max(round(TS$density * 2)/2, na.rm = TRUE), by = 0.5))
+
+
+      if (nrow(h.isopycnals) &gt; 0) {
+          h.isopycnals$density &lt;- round(h.isopycnals$density, 1)
+          h.isopycnals &lt;- aggregate(pot.temp ~ density, h.isopycnals, mean)
+      }
+
+
+      if (nrow(h.isopycnals) == 0) {
+          rm(h.isopycnals)
+
+          v.isopycnals &lt;- subset(TS, pot.temp == ceiling(max(TS$pot.temp)) &amp;
+                        round(TS$density, 1) %in% seq(min(round(TS$density * 2)/2),
+                        max(round(TS$density * 2)/2), by = 0.5))
+          v.isopycnals$density &lt;- round(v.isopycnals$density, 1)
+          v.isopycnals &lt;- aggregate(sal ~ density, v.isopycnals, mean)
+      }</code></pre>
+  <p> Next, the TS-plot is created using <i>ggplot2</i>.</p>
+  <pre class="r"><code>        # create a data frame to relate the z-axis to the other axes
+      data &lt;- data.frame(sal, pot.temp, col.par)
+
+
+      # plot
+      p1 &lt;- ggplot() +
+          # add density contours
+          geom_contour(data = TS, aes(x = sal, y = pot.temp, z = density), col = &quot;grey&quot;,
+              linetype = &quot;dashed&quot;, breaks = seq(min(round(TS$density * 2)/2, na.rm = TRUE),
+              max(round(TS$density * 2)/2, na.rm = TRUE), by = 0.5)) +
+
+          # plot other points with existing oxygen concentration data
+          geom_point(data = data[!is.na(data$col.par), ], aes(sal, pot.temp, color = col.par), size = 2.5) +
+
+          # add in potential density (sigma-theta) symbol
+          annotate(geom = &quot;text&quot;, x = floor(min(TS$sal, na.rm = TRUE)) + 0.6, y = ceiling(max(TS$pot.temp,
+              na.rm = TRUE)), hjust = &quot;inward&quot;, vjust = &quot;inward&quot;, color = &quot;grey60&quot;,
+              size = 14, label = expression(italic(&quot;σ&quot;)[italic(&quot;θ&quot;)]),
+              parse = T) +
+
+          scale_x_continuous(name = &quot;Practical Salinity [PSU]&quot;, expand = c(0, 0), limits = c(floor(min(TS$sal,
+              na.rm = TRUE)) + 0.5, ceiling(max(TS$sal, na.rm = TRUE)))) +
+          scale_y_continuous(name = &quot;Potential Temperature [°C]&quot;,
+              expand = c(0, 0), limits = c(floor(min(TS$pot.temp, na.rm = TRUE)) + 0, ceiling(max(TS$pot.temp,
+              na.rm = TRUE)))) +
+
+          scale_colour_gradientn(colours = viridis_pal()(10), # viridis is a colour blind friendly palette
+                           guide = "colorbar", limits = c(3.5,7.5), oob = squish,
+                           na.value = 'black') +
+          guides(fill = guide_colourbar(barwidth = 0.8, barheight = 20))+
+          labs(colour = expression("Oxygen \n[ml/l]")) +
+
+          theme_classic() +
+          theme(text = element_text(size = 25))</code></pre>
+  <p> Add potential density labels to the contours at the top and/or right edges of the plot. </p>
+  <pre class="r"><code>        if (exists(&quot;h.isopycnals&quot;)) {
+          p1 &lt;- p1 + geom_text(data = h.isopycnals, aes(x = ceiling(max(TS$sal)), y = pot.temp, label = density),
+              hjust = &quot;inward&quot;, vjust = -0.65, col = &quot;grey&quot;, size = 6)
+      }
+
+
+      if (exists(&quot;v.isopycnals&quot;)) {
+          p1 &lt;- p1 + geom_text(data = v.isopycnals, aes(x = sal, y = ceiling(max(TS$pot.temp)), label = density),
+              vjust = &quot;inward&quot;, hjust = 0, col = &quot;grey&quot;, size = 6)
+      }
+
+      return(p1) # display the ggplot
+  } # close function</code></pre>
+  <p>An example TS-plot:</p>
+  <p><img id="tsplotimg" src="../images/TSplot_winter2017.png" alt="Winter Southern Ocean TS-plot" width=50%></p>
+  <p>Adapted from : Kaiser, David. (2020, June 19). Davidatlarge/ggTS: ggTS first release (Version v1.0.0). Zenodo. <a href='http://doi.org/10.5281/zenodo.3901308'>http://doi.org/10.5281/zenodo.3901308</a></p>
+</div>
