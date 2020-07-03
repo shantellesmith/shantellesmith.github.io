@@ -7,7 +7,7 @@ if (window.hljs) {
 }
 
 // manage active state of menu based on current page
-$(document).ready(function () {
+$(document).ready(function ()) {
   // active menu anchor
   href = window.location.pathname
   href = href.substr(href.lastIndexOf('/') + 1)

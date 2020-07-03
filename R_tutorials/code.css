@@ -2,57 +2,68 @@
 /**/
 
 body {
-    background-color: white;
-    padding-top: 30px; /* padding for bootstrap navbar */
-    padding-bottom: 15px;
+    background-color: lightgrey;
+    padding-top: 40px; /* padding for bootstrap navbar */
+    padding-bottom: 200px;
 }
 
 h1 {
-  font-size: 34px;
+  font-size: 200%;
 }
 h1.title {
-  font-size: 38px;
+  font-size: 150%;
 }
 h2 {
-  font-size: 30px;
+  font-size: 150%;
 }
 h3 {
-  font-size: 24px;
+  font-size: 130%;
 }
 h4 {
-  font-size: 18px;
+  font-size: 115%;
 }
 h5 {
-  font-size: 16px;
+  font-size: 100%;
 }
 h6 {
-  font-size: 12px;
+  font-size: 90%;
 }
+
+.title { /* hide title on page*/
+  display: none;
+}
+
 
 img {
   max-width:100%;
 }
 
-
 .sidebar-menu {
-  height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 160px; /* Set the width of the sidebar */
+  height: 100%;
+  width: 18%; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: white; /* Black */
+  background-color: lightpink; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
+  padding-top: 70px;
+  padding-left: 10px;
 }
 
 .sidebar-menu a {
-  padding: 50px 8px 6px 16px;
   text-decoration: none;
-  font-size: 20px;
-  color: #818181;
+  color: darkslategray;
+  font-size: 100%;
+  word-wrap: normal;
   display: block;
+  padding-bottom: 40px;
 }
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
 
 .r { /* edit code block*/
   display: block;
@@ -72,4 +83,14 @@ img {
   width: 80%;
   padding-top: 20px;
   padding-right: 10px;
+  padding-bottom: 50%;
+}
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  background-color: white;
+  border-top: 2px solid lightgrey;
 }

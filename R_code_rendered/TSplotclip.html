@@ -5,14 +5,15 @@
     Since water masses also have distinct oxygen concentrations and exist along particular isolines of potential density (isopycnals),
     it is helpful to combine all four parameters into one plot for the purpose of water mass identification. </p>
   <p> This function allows you to create TS-plots with isopycnals (using potential density) and dissolved oxygen concentration as the z-axis.
-    This is an adaptation of the <a href="https://github.com/Davidatlarge/ggTS" target="_blank">ggTS</a> function.
+    This is an adaptation of the <a href="https://github.com/Davidatlarge/ggTS" target="_blank">ggTS</a> function created by David Kaiser
+    (<a href='http://doi.org/10.5281/zenodo.3901308'>http://doi.org/10.5281/zenodo.3901308</a>).
     Here, I've used the viridis palette for the z-axis for accessibility. An extensive list of colour palettes in R,
     including more information about colour-blind friendly palettes and palettes suitable for black and white displays, can be found
     <a href='https://github.com/EmilHvitfeldt/r-color-palettes' target="_blank">here</a>.</p>
   <p> The function ggTS requires vectors of equal length of practical salinity (sal), absolute salinity (abs.sal), in-situ temperature (temp),
     potential temperature (pot.temp), and sea pressure (pres). Optional arguments include reference pressure for the potential
-    density function (default = 0); a vector for the z-axis e.g. oxygen concentration (col.par) and a name for the z-axis (col.name).</p>
-  <pre class="r"><code>ggTS &lt;- function(sal, abs.sal, temp, pot.temp, pres, reference.p = 0, col.par = NA, col.name = &quot;col.par&quot;) {
+    density function (default = 0); a vector for the z-axis, specifically oxygen concentration (col.par).</p>
+  <pre class="r"><code>ggTS &lt;- function(sal, abs.sal, temp, pot.temp, pres, reference.p = 0, col.par = NA) {
       # load packages
       library(gsw)
       library(ggplot2) </code></pre>
@@ -56,7 +57,7 @@
           v.isopycnals$density &lt;- round(v.isopycnals$density, 1)
           v.isopycnals &lt;- aggregate(sal ~ density, v.isopycnals, mean)
       }</code></pre>
-  <p> Next, the TS-plot is created using <i>ggplot2</i>.</p>
+  <p> Next, the TS-plot is created using <i>ggplot2</i>. Since col.par is not a required argument, the plot can be created with or without the oxygen concentration (or other required z-axis) overlay.</p>
   <pre class="r"><code>        # create a data frame to relate the z-axis to the other axes
       data &lt;- data.frame(sal, pot.temp, col.par)
 
@@ -106,6 +107,12 @@
       return(p1) # display the ggplot
   } # close function</code></pre>
   <p>An example TS-plot:</p>
-  <p><img id="tsplotimg" src="../images/TSplot_winter2017.png" alt="Winter Southern Ocean TS-plot" width=50%></p>
+  <p><img id="tsplotimg" src="../images/X.png" alt="Southern Ocean TS-plot" width=50%></p>
   <p>Adapted from : Kaiser, David. (2020, June 19). Davidatlarge/ggTS: ggTS first release (Version v1.0.0). Zenodo. <a href='http://doi.org/10.5281/zenodo.3901308'>http://doi.org/10.5281/zenodo.3901308</a></p>
+  <p>The following adaptations were made: </p>
+  <ul><li>Adapted the arguments, long tables, and density calculation to use potential density instead of in-situ denstiy</li>
+    <li>Specifically adapted the z-axis for oxygen concentrations</li>
+    <li>Changed the colour palette to viridis</li>
+    <li>Other minor plotting changes</li>
+  </ul>
 </div>
