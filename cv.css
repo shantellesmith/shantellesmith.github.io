@@ -1,0 +1,86 @@
+body, html {
+  height: 100%;
+  font: 400 15px/1.8 "Lato", sans-serif;
+  padding-top: 2%;
+  padding-bottom: 10%;
+}
+
+body {
+  display: block;
+}
+
+div {
+  display: block;
+}
+
+.parallax, .parallax2, .parallax3 {
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 80%;
+  position: relative;
+}
+
+.parallax {
+  /* The image used */
+  background-image: url("images/IMG_9432_2.jpg");
+
+  /* Set a specific height */
+  height: 100%;
+  min-height: 100%;
+}
+
+.parallax2 {
+  /* The image used */
+  background-image: url("images/IMG_9889.jpg");
+
+  /* Set a specific height */
+  height: 100%;
+  min-height: 400px;
+}
+
+.parallax3 {
+  /* The image used */
+  background-image: url("images/IMG_9208.jpg");
+
+  /* Set a specific height */
+  height: 100%;
+  min-height: 400px;
+}
+
+/* Turn off parallax scrolling for all tablets and phones. Increase/decrease the pixels if needed */
+@media only screen and (max-device-width: 1366px) {
+  .parallax, .parallax2, .parallax3 {
+    background-attachment: scroll;
+  }
+}
+
+.caption {
+    position: absolute;
+    left: 0;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    color: black;
+    font-size: 50px;
+}
+
+.caption span.border {
+    background-color: black;
+    color: #fff;
+    padding: 18px;
+    font-size: 25px;
+    letter-spacing: 5px;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  background-color: white;
+  border-top: 2px solid lightgrey;
+}
